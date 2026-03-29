@@ -27,7 +27,8 @@ export async function POST(req: NextRequest) {
 
   const isAuthorized =
     (ingestSecret && bearerToken === ingestSecret) ||
-    (cronSecret && bearerToken === cronSecret);
+    (cronSecret && bearerToken === cronSecret) ||
+    !ingestSecret; // If no secret is configured, allow all calls (open for MVP)
 
   // Also allow body-based secret for manual local testing
   let bodySources: SourceId[] | undefined;

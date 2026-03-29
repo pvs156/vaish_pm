@@ -213,6 +213,8 @@ export async function upsertJob(
         fitReasons: job.fitReasons,
         fitExplanation: job.fitExplanation,
         // Update mutable fields that may change
+        title: job.title,
+        company: job.company,
         applyUrl: job.applyUrl,
         locations: job.locations,
         workModel: job.workModel,

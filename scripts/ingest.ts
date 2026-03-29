@@ -1,31 +1,31 @@
 #!/usr/bin/env tsx
 /**
- * CLI ingestion runner â” use when you want to trigger ingest locally.
+ * CLI ingestion runner -- use when you want to trigger ingest locally.
  * Usage:  npm run ingest
  *
- * Requires DATABASE_URL in your .env file.
+ * Requires DATABASE_URL in your .env.local file.
  */
 
 import { config } from "dotenv";
-config(); // load .env before any db imports
+config({ path: ".env.local" }); // load .env.local before any db imports
 
 import { runIngestionPipeline } from "@/lib/ingestion/pipeline";
 
 async function main() {
-  console.log("ð  Job Radar â” starting ingestionâ¦\n");
+  console.log("Job Radar -- starting ingestion...\n");
   const start = Date.now();
 
   const result = await runIngestionPipeline();
 
   const elapsed = ((Date.now() - start) / 1000).toFixed(1);
-  console.log(`\nâ...  Ingestion finished in ${elapsed}s`);
+  console.log(`\nIngestion finished in ${elapsed}s`);
   console.log(`   Inserted : ${result.totalInserted}`);
   console.log(`   Updated  : ${result.totalUpdated}`);
   console.log(`   Skipped  : ${result.totalSkipped}`);
   console.log(`   Status   : ${result.status}`);
 
   if (result.errors.length > 0) {
-    console.log("\nâ ï¸  Errors:");
+    console.log("\nErrors:");
     for (const err of result.errors) {
       console.log(`   [${err.source}] ${err.message}`);
     }
