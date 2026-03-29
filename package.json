@@ -12,7 +12,7 @@
     "db:generate": "drizzle-kit generate",
     "db:push": "drizzle-kit push",
     "db:studio": "drizzle-kit studio",
-    "ingest": "npx tsx scripts/ingest.ts"
+    "ingest": "node --env-file=.env.local --import=tsx scripts/ingest.ts"
   },
   "keywords": [],
   "author": "",
