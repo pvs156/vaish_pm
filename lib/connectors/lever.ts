@@ -1,5 +1,5 @@
 /**
- * Lever connector — queries public Lever job boards for a curated list of companies.
+ * Lever connector �” queries public Lever job boards for a curated list of companies.
  *
  * API: GET https://api.lever.co/v0/postings/{company}?mode=json
  * Returns: array of posting objects
@@ -109,7 +109,7 @@ export class LeverConnector implements SourceConnector {
           errors.push({
             source: this.sourceId,
             stage: "parse",
-            message: `Lever ${slug}: schema parse failed — ${err instanceof Error ? err.message : String(err)}`,
+            message: `Lever ${slug}: schema parse failed �” ${err instanceof Error ? err.message : String(err)}`,
           });
           return;
         }

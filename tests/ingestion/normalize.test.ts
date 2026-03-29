@@ -52,7 +52,7 @@ describe("generateDedupeKey", () => {
     expect(typeof key).toBe("string");
   });
 
-  it("is stable — same inputs produce same key", () => {
+  it("is stable �” same inputs produce same key", () => {
     const a = generateDedupeKey("Stripe Inc.", "PM Intern 2026", ["San Francisco, CA"]);
     const b = generateDedupeKey("Stripe Inc.", "PM Intern 2026", ["San Francisco, CA"]);
     expect(a).toBe(b);

@@ -1,5 +1,5 @@
 /**
- * Jobright connector — parses the 2026-Product-Management-Internship GitHub repo.
+ * Jobright connector �” parses the 2026-Product-Management-Internship GitHub repo.
  *
  * The README is a markdown pipe table with columns:
  *   Company | Role | Location | Work Type | Date

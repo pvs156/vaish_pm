@@ -70,7 +70,7 @@ describe("scoreJob", () => {
       makeJob({ title: "Senior Software Engineer" }),
       makeProfile()
     );
-    // Should score much lower — title mismatch + mismatch penalty
+    // Should score much lower �” title mismatch + mismatch penalty
     expect(result.score!).toBeLessThan(50);
   });
 
@@ -85,7 +85,7 @@ describe("scoreJob", () => {
     expect(result.explanation!.length).toBeGreaterThan(0);
   });
 
-  it("uses recency — an old job scores lower than a fresh one", () => {
+  it("uses recency �” an old job scores lower than a fresh one", () => {
     const oldDate = new Date();
     oldDate.setDate(oldDate.getDate() - 60); // 60 days ago
 

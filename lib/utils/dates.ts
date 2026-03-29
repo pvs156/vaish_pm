@@ -16,7 +16,7 @@ export function parseDate(raw: string | null | undefined): Date | null {
   const isoDate = new Date(trimmed);
   if (!isNaN(isoDate.getTime())) return isoDate;
 
-  // "Mar 28" — no year, assume current year (or previous Dec)
+  // "Mar 28" �” no year, assume current year (or previous Dec)
   const shortMonthMatch = trimmed.match(/^([A-Za-z]{3})\s+(\d{1,2})$/);
   if (shortMonthMatch) {
     const [, monthStr, dayStr] = shortMonthMatch;

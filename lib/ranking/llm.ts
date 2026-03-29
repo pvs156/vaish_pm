@@ -3,13 +3,13 @@
  *
  * When OPENAI_API_KEY is set, this function calls the OpenAI Chat API with
  * the user's profile and job description to get a nuanced "match quality" score
- * (0–100) and a short explanation.
+ * (0�“100) and a short explanation.
  *
  * When the key is absent or the call fails, the function quietly returns null
  * so the pipeline falls back to the pure heuristic score.
  *
  * This is intentionally isolated: it never replaces the heuristic score outright
- * — it can only nudge the final score up or down by ±15 points.
+ * �” it can only nudge the final score up or down by ±15 points.
  */
 
 import type { UserProfile } from "../types";
@@ -111,7 +111,7 @@ nudge > 0 if the job is a better fit than the heuristic suggests, < 0 if worse, 
 
     return { nudge, reasoning };
   } catch {
-    // Fail silently — LLM boost is always optional
+    // Fail silently �” LLM boost is always optional
     return null;
   }
 }

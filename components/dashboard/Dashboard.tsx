@@ -160,7 +160,7 @@ export function Dashboard({ initialJobs, initialTotal, initialFilters }: Dashboa
         await fetchJobs(filtersRef.current);
       }
     } catch {
-      setIngestMessage("Network error — ingest failed.");
+      setIngestMessage("Network error -- ingest failed.");
     } finally {
       setIngestLoading(false);
     }

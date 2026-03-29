@@ -10,7 +10,7 @@ export interface SourceConnector {
 
   /**
    * Run a full ingest cycle and return normalized jobs + any non-fatal errors.
-   * This method orchestrates fetch → parse → normalize internally.
+   * This method orchestrates fetch �’ parse �’ normalize internally.
    */
   run(): Promise<ConnectorResult>;
 }

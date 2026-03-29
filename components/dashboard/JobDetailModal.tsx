@@ -60,7 +60,7 @@ export function JobDetailModal({ job, onClose, onAction }: JobDetailModalProps) 
           <div>
             <p className="text-xl font-medium text-gray-800">{job.company}</p>
             <div className="flex flex-wrap gap-2 mt-2 text-sm text-gray-500">
-              {job.locations.length > 0 && <span>üìç {job.locations.join(", ")}</span>}
+              {job.locations.length > 0 && <span>ü‚Äúç {job.locations.join(", ")}</span>}
               {job.workModel !== "unknown" && <span>¬∑ {job.workModel}</span>}
               {job.postedAt && (
                 <span>¬∑ Posted {formatDate(job.postedAt)}</span>
@@ -75,12 +75,12 @@ export function JobDetailModal({ job, onClose, onAction }: JobDetailModalProps) 
           <div className="flex gap-2 flex-wrap">
             {isApplied && (
               <span className="text-xs font-medium bg-emerald-100 text-emerald-700 px-2.5 py-1 rounded-full">
-                ‚úì Applied {job.appliedAt ? timeAgo(job.appliedAt) : ""}
+                ‚ú‚Äú Applied {job.appliedAt ? timeAgo(job.appliedAt) : ""}
               </span>
             )}
             {isSaved && (
               <span className="text-xs font-medium bg-brand-100 text-brand-700 px-2.5 py-1 rounded-full">
-                ‚òÖ Saved
+                ‚ò... Saved
               </span>
             )}
             {isDismissed && (
@@ -176,7 +176,7 @@ export function JobDetailModal({ job, onClose, onAction }: JobDetailModalProps) 
               onClick={() => onAction(job.id, "apply")}
               className="flex-1 text-center font-medium text-white bg-brand-600 hover:bg-brand-700 px-4 py-2.5 rounded-xl transition-colors"
             >
-              Apply Now ‚Üó
+              Apply Now ‚Ü--
             </a>
           )}
 

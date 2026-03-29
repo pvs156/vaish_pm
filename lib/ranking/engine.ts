@@ -1,13 +1,13 @@
 /**
- * Ranking engine — aggregates individual signals into a deterministic 0–100 score.
+ * Ranking engine �” aggregates individual signals into a deterministic 0�“100 score.
  *
  * Weights (sum to 1.0):
- *   titleRelevance  0.30  — most important: is this even a PM role?
- *   skillsOverlap   0.20  — do skills from profile/JD match?
- *   domainFit       0.15  — does the domain match user's background?
- *   recency         0.15  — newer is better
- *   locationFit     0.10  — geography alignment
- *   workModelFit    0.10  — remote/hybrid/onsite preference
+ *   titleRelevance  0.30  �” most important: is this even a PM role?
+ *   skillsOverlap   0.20  �” do skills from profile/JD match?
+ *   domainFit       0.15  �” does the domain match user's background?
+ *   recency         0.15  �” newer is better
+ *   locationFit     0.10  �” geography alignment
+ *   workModelFit    0.10  �” remote/hybrid/onsite preference
  *
  * Mismatch penalty is applied as a final multiplier (not weighted).
  */
@@ -72,11 +72,11 @@ export function scoreJob(job: RawJob, profile: UserProfile): ScoredJob {
     location.score * WEIGHTS.locationFit +
     workModel.score * WEIGHTS.workModelFit;
 
-  // Apply mismatch multiplier and scale to 0–100
+  // Apply mismatch multiplier and scale to 0�“100
   const finalScore = Math.round(rawScore * penalty.multiplier * 100);
   const clampedScore = Math.max(0, Math.min(100, finalScore));
 
-  // Build reasons list (3–5 most informative items)
+  // Build reasons list (3�“5 most informative items)
   const reasons: string[] = [];
 
   if (title.matched) {
@@ -129,7 +129,7 @@ export function scoreJob(job: RawJob, profile: UserProfile): ScoredJob {
 }
 
 /**
- * Score a full FitResult (with all signal values) — used for API/debug responses.
+ * Score a full FitResult (with all signal values) �” used for API/debug responses.
  */
 export function scoreJobFull(job: RawJob, profile: UserProfile): FitResult {
   const { score, reasons, explanation } = scoreJob(job, profile);

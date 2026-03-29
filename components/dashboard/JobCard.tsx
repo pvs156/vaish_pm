@@ -38,7 +38,7 @@ const WORK_MODEL_ICONS: Record<string, string> = {
 function ScoreBar({ score }: { score: number | null }) {
   if (score === null) {
     return (
-      <span className="text-xs text-gray-400 italic">Unscored ‚Äî set profile to rank</span>
+      <span className="text-xs text-gray-400 italic">Unscored ‚Ä‚Äù set profile to rank</span>
     );
   }
 
@@ -121,10 +121,10 @@ export function JobCard({ job, onAction, onExpand }: JobCardProps) {
               </span>
             )}
             {isApplied && (
-              <span className="text-xs font-medium text-emerald-600">‚úì Applied</span>
+              <span className="text-xs font-medium text-emerald-600">‚ú‚Äú Applied</span>
             )}
             {isSaved && (
-              <span className="text-xs font-medium text-brand-600">‚òÖ Saved</span>
+              <span className="text-xs font-medium text-brand-600">‚ò... Saved</span>
             )}
           </div>
 
@@ -180,7 +180,7 @@ export function JobCard({ job, onAction, onExpand }: JobCardProps) {
                       : "text-gray-400 hover:text-brand-600 hover:bg-brand-50"
                   }`}
                 >
-                  {loading === "save" || loading === "unsave" ? "‚Ä¶" : "‚òÖ"}
+                  {loading === "save" || loading === "unsave" ? "‚Ä¶" : "‚ò..."}
                 </button>
               )}
 
@@ -209,7 +209,7 @@ export function JobCard({ job, onAction, onExpand }: JobCardProps) {
                   onClick={() => handleAction("apply")}
                   className="text-sm font-medium text-white bg-brand-600 hover:bg-brand-700 px-3 py-1 rounded-lg transition-colors"
                 >
-                  Apply ‚Üó
+                  Apply ‚Ü--
                 </a>
               )}
 
@@ -220,7 +220,7 @@ export function JobCard({ job, onAction, onExpand }: JobCardProps) {
                   rel="noopener noreferrer"
                   className="text-sm text-gray-400 hover:text-gray-600 px-2 py-1 rounded-lg transition-colors"
                 >
-                  View ‚Üó
+                  View ‚Ü--
                 </a>
               )}
             </div>

@@ -4,7 +4,7 @@ import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Job Radar",
-  description: "PM internship job radar — personalised, ranked, noise-free.",
+  description: "PM internship job radar �” personalised, ranked, noise-free.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

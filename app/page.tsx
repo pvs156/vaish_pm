@@ -17,7 +17,7 @@ export default async function HomePage() {
     initialJobs = result.jobs as JobListItem[];
     initialTotal = result.total;
   } catch {
-    // DB not yet connected — show empty state, user can trigger ingest
+    // DB not yet connected �” show empty state, user can trigger ingest
   }
 
   return (

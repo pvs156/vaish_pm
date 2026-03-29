@@ -1,5 +1,5 @@
 /**
- * Ashby connector — queries public Ashby GraphQL job boards for a curated list of companies.
+ * Ashby connector �” queries public Ashby GraphQL job boards for a curated list of companies.
  *
  * API: POST https://jobs.ashbyhq.com/api/non-user-graphql
  * with GraphQL query: query JobBoard($slug: String!) { jobBoard(companySlug: $slug) { ... } }
@@ -132,7 +132,7 @@ export class AshbyConnector implements SourceConnector {
           errors.push({
             source: this.sourceId,
             stage: "parse",
-            message: `Ashby ${slug}: schema parse failed — ${err instanceof Error ? err.message : String(err)}`,
+            message: `Ashby ${slug}: schema parse failed �” ${err instanceof Error ? err.message : String(err)}`,
           });
           return;
         }
