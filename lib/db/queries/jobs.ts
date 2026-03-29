@@ -219,7 +219,7 @@ export async function upsertJob(
         locations: job.locations,
         workModel: job.workModel,
         updatedAt: job.updatedAt,
-        postedAt: job.postedAt ?? undefined,
+        postedAt: job.postedAt, // allow null to overwrite stale wrong dates
       })
       .where(eq(jobs.dedupeKey, job.dedupeKey));
     return { inserted: false, updated: true };

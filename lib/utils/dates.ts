@@ -12,11 +12,15 @@ export function parseDate(raw: string | null | undefined): Date | null {
   const trimmed = raw.trim();
   if (!trimmed) return null;
 
-  // ISO 8601 (Greenhouse, Ashby)
-  const isoDate = new Date(trimmed);
-  if (!isNaN(isoDate.getTime())) return isoDate;
+  // ISO 8601 (Greenhouse, Ashby) — only try new Date() when the string starts with
+  // a 4-digit year. V8's legacy parser silently converts "Mar 28" to year 2001,
+  // which would make all Jobright jobs appear as "304mo ago".
+  if (/^\d{4}/.test(trimmed)) {
+    const isoDate = new Date(trimmed);
+    if (!isNaN(isoDate.getTime())) return isoDate;
+  }
 
-  // "Mar 28" â” no year, assume current year (or previous Dec)
+  // "Mar 28" — no year, assume current year (or previous Dec)
   const shortMonthMatch = trimmed.match(/^([A-Za-z]{3})\s+(\d{1,2})$/);
   if (shortMonthMatch) {
     const [, monthStr, dayStr] = shortMonthMatch;
