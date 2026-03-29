@@ -78,11 +78,11 @@ export function parseJobrightMarkdown(content: string): ParsedRow[] {
     if (rawCompany.startsWith("â³") || rawCompany === "") {
       company = lastCompany;
     } else {
-      company = cleanText(rawCompany.replace(/\[([^\]]+)\]\([^)]+\)/g, "$1"));
+      company = cleanText(rawCompany.replace(/\[([^\]]+)\]\([^)]+\)/g, "$1").replace(/\*\*/g, ""));
       lastCompany = company;
     }
 
-    const title = cleanText(rawRole.replace(/â³\s*/, "").replace(/\[([^\]]+)\]\([^)]+\)/g, "$1"));
+    const title = cleanText(rawRole.replace(/â³\s*/, "").replace(/\[([^\]]+)\]\([^)]+\)/g, "$1").replace(/\*\*/g, ""));
     const location = cleanText(rawLocation);
     const workType = cleanText(rawWorkType);
     const dateStr = cleanText(rawDate);
