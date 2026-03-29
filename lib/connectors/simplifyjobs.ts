@@ -1,9 +1,9 @@
 /**
- * SimplifyJobs connector �” parses the Summer2026-Internships GitHub repo.
+ * SimplifyJobs connector ââ parses the Summer2026-Internships GitHub repo.
  *
  * The README uses an HTML <table> embedded in markdown with columns:
  *   Company | Role | Location | Application / Link | Date Posted
- * Sub-rows (additional roles at same company) start with ↳ in the Role column.
+ * Sub-rows (additional roles at same company) start with â³ in the Role column.
  * The Application column contains HTML with anchor tags to Apply/Simplify.
  *
  * Source: https://github.com/SimplifyJobs/Summer2026-Internships (dev branch)
@@ -26,7 +26,7 @@ const REF = "dev";
 
 const SOURCE_BASE_URL = `https://github.com/${OWNER}/${REPO}`;
 
-// Roles to keep �” must match these PM-adjacent keywords
+// Roles to keep ââ must match these PM-adjacent keywords
 const PM_TITLE_KEYWORDS = [
   "product manager",
   "product management",
@@ -92,21 +92,21 @@ export function parseSimplifyJobsReadme(content: string): ParsedRow[] {
     const rawApplication = $(cells[3]).html() ?? "";
     const rawDate = $(cells[4])?.text().trim() ?? "";
 
-    // Resolve company for ↳ sub-rows
+    // Resolve company for â³ sub-rows
     let company: string;
-    if (!rawCompany || rawCompany === "↳") {
+    if (!rawCompany || rawCompany === "â³") {
       company = lastCompany;
     } else {
       company = cleanText(rawCompany);
       lastCompany = company;
     }
 
-    const title = cleanText(rawRole.replace(/^↳\s*/, ""));
+    const title = cleanText(rawRole.replace(/^â³\s*/, ""));
 
     if (!company || !title) return;
     if (!isPmRole(title)) return;
 
-    // Extract apply URL �” prefer the direct "Apply" link over the Simplify button
+    // Extract apply URL ââ prefer the direct "Apply" link over the Simplify button
     const applyUrl =
       extractUrl(rawApplication) ??
       null;

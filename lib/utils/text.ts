@@ -30,11 +30,11 @@ export function stripHtml(html: string): string {
 }
 
 /**
- * Truncate a string to a maximum length, appending "…" if truncated.
+ * Truncate a string to a maximum length, appending "â¦" if truncated.
  */
 export function truncate(text: string, maxLen: number): string {
   if (text.length <= maxLen) return text;
-  return text.slice(0, maxLen - 1) + "…";
+  return text.slice(0, maxLen - 1) + "â¦";
 }
 
 /**
@@ -100,7 +100,7 @@ export function normalizeTitle(title: string): string {
 
 /**
  * Simple stable hash for generating deterministic dedupeKeys.
- * Not cryptographic �” just for deduplication purposes.
+ * Not cryptographic ââ just for deduplication purposes.
  */
 export function simpleHash(str: string): string {
   let hash = 0;

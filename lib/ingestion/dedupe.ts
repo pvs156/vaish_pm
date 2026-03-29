@@ -5,7 +5,7 @@ import type { ConnectorResult } from "../types";
  *
  * Strategy:
  * 1. Within a single batch: if two jobs share the same dedupeKey, keep the one
- *    with the earlier postedAt (or the one from a "better" source �” structured API wins).
+ *    with the earlier postedAt (or the one from a "better" source ââ structured API wins).
  * 2. The persistent DB-level deduplication happens in upsertJob (on dedupeKey UNIQUE constraint).
  *
  * Returns a deduplicated flat array.
@@ -15,7 +15,7 @@ export function deduplicateJobs(
 ): ConnectorResult["jobs"] {
   const seen = new Map<string, ConnectorResult["jobs"][number]>();
 
-  // Source priority �” higher wins when dedupeKey collision
+  // Source priority ââ higher wins when dedupeKey collision
   const sourcePriority: Record<string, number> = {
     greenhouse: 4,
     lever: 4,

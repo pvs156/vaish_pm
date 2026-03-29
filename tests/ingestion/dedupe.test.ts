@@ -33,7 +33,7 @@ describe("deduplicateJobs", () => {
     expect(deduplicateJobs(jobs)).toHaveLength(2);
   });
 
-  it("deduplicates jobs with the same dedupeKey �” higher priority source wins", () => {
+  it("deduplicates jobs with the same dedupeKey ââ higher priority source wins", () => {
     const jobs = [
       makeJob({ dedupeKey: "same-key", source: "jobright_github" }),
       makeJob({ dedupeKey: "same-key", source: "greenhouse" }), // higher priority

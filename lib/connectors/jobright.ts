@@ -1,9 +1,9 @@
 /**
- * Jobright connector �” parses the 2026-Product-Management-Internship GitHub repo.
+ * Jobright connector ââ parses the 2026-Product-Management-Internship GitHub repo.
  *
  * The README is a markdown pipe table with columns:
  *   Company | Role | Location | Work Type | Date
- * Sub-rows (additional postings at same company) start with ↳ in the Role column.
+ * Sub-rows (additional postings at same company) start with â³ in the Role column.
  *
  * Source: https://github.com/jobright-ai/2026-Product-Management-Internship
  */
@@ -34,7 +34,7 @@ interface ParsedRow {
 
 /**
  * Parse the markdown pipe table rows from the README content.
- * Handles ↳ sub-rows by carrying over the last seen company name.
+ * Handles â³ sub-rows by carrying over the last seen company name.
  */
 export function parseJobrightMarkdown(content: string): ParsedRow[] {
   const lines = content.split("\n");
@@ -73,16 +73,16 @@ export function parseJobrightMarkdown(content: string): ParsedRow[] {
 
     const [rawCompany = "", rawRole = "", rawLocation = "", rawWorkType = "", rawDate = ""] = cells;
 
-    // Resolve company: use ↳ sub-row or update last seen
+    // Resolve company: use â³ sub-row or update last seen
     let company: string;
-    if (rawCompany.startsWith("↳") || rawCompany === "") {
+    if (rawCompany.startsWith("â³") || rawCompany === "") {
       company = lastCompany;
     } else {
       company = cleanText(rawCompany.replace(/\[([^\]]+)\]\([^)]+\)/g, "$1"));
       lastCompany = company;
     }
 
-    const title = cleanText(rawRole.replace(/↳\s*/, "").replace(/\[([^\]]+)\]\([^)]+\)/g, "$1"));
+    const title = cleanText(rawRole.replace(/â³\s*/, "").replace(/\[([^\]]+)\]\([^)]+\)/g, "$1"));
     const location = cleanText(rawLocation);
     const workType = cleanText(rawWorkType);
     const dateStr = cleanText(rawDate);

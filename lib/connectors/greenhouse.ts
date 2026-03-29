@@ -1,5 +1,5 @@
 /**
- * Greenhouse connector �” queries public Greenhouse job boards for a curated list of companies.
+ * Greenhouse connector ââ queries public Greenhouse job boards for a curated list of companies.
  *
  * API: GET https://boards-api.greenhouse.io/v1/boards/{token}/jobs
  * Returns: { jobs: [...], meta: { total: N } }
@@ -15,7 +15,7 @@ import { generateDedupeKey, inferWorkModel, normalizeLocations } from "../ingest
 import { parseDate } from "../utils/dates";
 import { containsAny, normalizeCompany } from "../utils/text";
 
-// Default curated list �” expandable via GREENHOUSE_COMPANIES env var (comma-separated tokens)
+// Default curated list ââ expandable via GREENHOUSE_COMPANIES env var (comma-separated tokens)
 const DEFAULT_COMPANIES: Array<{ token: string; name: string }> = [
   { token: "stripe", name: "Stripe" },
   { token: "figma", name: "Figma" },
@@ -103,7 +103,7 @@ export class GreenhouseConnector implements SourceConnector {
           errors.push({
             source: this.sourceId,
             stage: "parse",
-            message: `Greenhouse ${token}: schema parse failed �” ${err instanceof Error ? err.message : String(err)}`,
+            message: `Greenhouse ${token}: schema parse failed ââ ${err instanceof Error ? err.message : String(err)}`,
           });
           return;
         }

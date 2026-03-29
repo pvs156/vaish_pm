@@ -180,7 +180,7 @@ export function Dashboard({ initialJobs, initialTotal, initialFilters }: Dashboa
         <div className="flex items-center justify-between mb-4">
           <p className="text-sm text-gray-500">
             {loading ? "Loading..." : `${total} role${total !== 1 ? "s" : ""}`}
-            {jobs.length < total && !loading ? ` · showing ${jobs.length}` : ""}
+            {jobs.length < total && !loading ? ` Â· showing ${jobs.length}` : ""}
           </p>
           <div className="flex items-center gap-2">
             {ingestMessage && (

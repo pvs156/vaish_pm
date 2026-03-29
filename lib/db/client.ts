@@ -2,7 +2,7 @@ import { neon } from "@neondatabase/serverless";
 import { drizzle } from "drizzle-orm/neon-http";
 import * as schema from "./schema";
 
-// Singleton pattern �” safe for Next.js serverless/edge functions.
+// Singleton pattern ââ safe for Next.js serverless/edge functions.
 // Each invocation gets a fresh HTTP connection from the pool.
 function createDb() {
   const databaseUrl = process.env.DATABASE_URL;

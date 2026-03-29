@@ -9,7 +9,7 @@ export default async function SettingsPage() {
   try {
     profile = await getProfile();
   } catch {
-    // Not connected yet �” show empty form
+    // Not connected yet ââ show empty form
   }
 
   return (
