@@ -100,7 +100,7 @@ export function normalizeTitle(title: string): string {
 
 /**
  * Simple stable hash for generating deterministic dedupeKeys.
- * Not cryptographic ââ just for deduplication purposes.
+ * Not cryptographic â” just for deduplication purposes.
  */
 export function simpleHash(str: string): string {
   let hash = 0;

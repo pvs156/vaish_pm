@@ -4,7 +4,7 @@
  * Each scorer returns a value in [0, 1].
  * Scores are combined with weights in engine.ts.
  *
- * All scorers are pure functions ââ no side effects, no I/O.
+ * All scorers are pure functions â” no side effects, no I/O.
  */
 
 import type { UserProfile } from "../types";
@@ -14,7 +14,7 @@ import { hoursAgo } from "../utils/dates";
 
 type RawJob = ConnectorResult["jobs"][number];
 
-// ââââââ PM-adjacent title keywords (ordered by relevance to the user profile) ââââââ
+// â”â”â” PM-adjacent title keywords (ordered by relevance to the user profile) â”â”â”
 
 const PM_CORE_TITLES = [
   "product manager",
@@ -60,7 +60,7 @@ const PM_CORE_SKILLS = [
   "python", "sql", "data analysis", "analytics",
 ];
 
-// ââââââ Signal: Title Relevance ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// â”â”â” Signal: Title Relevance â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”
 
 /**
  * How well does the job title match PM-relevant role types?
@@ -92,7 +92,7 @@ export function titleRelevanceScore(
   return { score: 0.2, matched: null };
 }
 
-// ââââââ Signal: Skills Overlap ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// â”â”â” Signal: Skills Overlap â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”
 
 /**
  * How many of the user's skills appear in the job description or title?
@@ -123,7 +123,7 @@ export function skillsOverlapScore(
   return { score: Math.min(score * 2, 1), matched }; // amplify since partial matches are common
 }
 
-// ââââââ Signal: Domain Fit ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// â”â”â” Signal: Domain Fit â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”
 
 /**
  * Does the job's company/title/description mention domains that match the user's background?
@@ -142,7 +142,7 @@ export function domainFitScore(
   return { score: 0.3, domain: null };
 }
 
-// ââââââ Signal: Location Fit ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// â”â”â” Signal: Location Fit â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”
 
 /**
  * Does the job's location match any of the user's preferred locations?
@@ -153,7 +153,7 @@ export function locationFitScore(
   profile: UserProfile
 ): { score: number; reason: string | null } {
   if (job.workModel === "remote") {
-    return { score: 0.9, reason: "Remote ââ open to all locations" };
+    return { score: 0.9, reason: "Remote â” open to all locations" };
   }
 
   const jobLocations = job.locations.map((l) => l.toLowerCase());
@@ -175,7 +175,7 @@ export function locationFitScore(
   return { score: 0.2, reason: null };
 }
 
-// ââââââ Signal: Work Model Fit ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// â”â”â” Signal: Work Model Fit â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”
 
 /**
  * Does the job's work model match the user's preferences?
@@ -202,7 +202,7 @@ export function workModelFitScore(
   return { score: 0.3, reason: `Work model (${job.workModel}) doesn't match preference` };
 }
 
-// ââââââ Signal: Recency ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// â”â”â” Signal: Recency â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”
 
 /**
  * How recently was the job posted?
@@ -221,11 +221,11 @@ export function recencyScore(job: RawJob): { score: number; label: string } {
   return { score: 0.1, label: "Older posting" };
 }
 
-// ââââââ Signal: Mismatch Penalty ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// â”â”â” Signal: Mismatch Penalty â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”
 
 /**
  * Apply penalties for clear mismatches: wrong seniority, excluded domains, etc.
- * Returns a multiplier in [0, 1] ââ 1.0 = no penalty.
+ * Returns a multiplier in [0, 1] â” 1.0 = no penalty.
  */
 export function mismatchPenalty(
   job: RawJob,

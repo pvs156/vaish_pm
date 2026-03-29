@@ -11,9 +11,9 @@ const BASIC_TABLE = `
 const SUBROW_TABLE = `
 | Company | Role | Location | Work Type | Date |
 | ------- | ---- | -------- | --------- | ---- |
-| [Google](https://google.com) | [PM Intern ââ Ads](https://google.com/jobs/1) | Mountain View | Remote | Apr 1 |
-| â³ | [PM Intern ââ Maps](https://google.com/jobs/2) | Seattle | Hybrid | Apr 2 |
-| â³ | [PM Intern ââ Cloud](https://google.com/jobs/3) | Remote | Remote | Apr 3 |
+| [Google](https://google.com) | [PM Intern â“ Ads](https://google.com/jobs/1) | Mountain View | Remote | Apr 1 |
+| â³ | [PM Intern â“ Maps](https://google.com/jobs/2) | Seattle | Hybrid | Apr 2 |
+| â³ | [PM Intern â“ Cloud](https://google.com/jobs/3) | Remote | Remote | Apr 3 |
 | [Figma](https://figma.com) | [Product Intern](https://figma.com/jobs/4) | San Francisco | Hybrid | Apr 4 |
 `;
 

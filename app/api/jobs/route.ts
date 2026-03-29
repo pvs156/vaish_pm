@@ -12,12 +12,12 @@ import { JobFiltersSchema } from "@/lib/schemas";
  *   source       jobright_github | simplifyjobs_github | greenhouse | lever | ashby | manual | all
  *   workModel    remote | hybrid | onsite | unknown | all
  *   location     string (partial match)
- *   minScore     0ââ100
+ *   minScore     0â“100
  *   sort         best_fit | newest
  *   includeApplied   true | false
  *   includeDismissed true | false
  *   page         integer >= 1
- *   pageSize     1ââ100
+ *   pageSize     1â“100
  */
 export async function GET(req: NextRequest) {
   const { searchParams } = req.nextUrl;

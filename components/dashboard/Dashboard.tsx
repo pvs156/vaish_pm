@@ -191,7 +191,7 @@ export function Dashboard({ initialJobs, initialTotal, initialFilters }: Dashboa
               disabled={ingestLoading}
               className="text-sm font-medium px-3 py-1.5 rounded-lg bg-brand-600 text-white hover:bg-brand-700 disabled:opacity-50 transition-colors"
             >
-              {ingestLoading ? "Running..." : "? Refresh"}
+              {ingestLoading ? "Running..." : "↻ Refresh"}
             </button>
           </div>
         </div>
@@ -205,7 +205,7 @@ export function Dashboard({ initialJobs, initialTotal, initialFilters }: Dashboa
           </div>
         ) : jobs.length === 0 ? (
           <div className="text-center py-20 text-gray-400 space-y-3">
-            <p className="text-4xl">??</p>
+            <p className="text-4xl">&#x1F50D;</p>
             <p className="text-lg font-medium">No roles found</p>
             <p className="text-sm">
               Try widening your filters, or{" "}

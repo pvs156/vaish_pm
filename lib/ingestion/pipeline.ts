@@ -1,5 +1,5 @@
 /**
- * Ingestion pipeline ââ orchestrates all source connectors.
+ * Ingestion pipeline â” orchestrates all source connectors.
  *
  * Pipeline steps:
  * 1. Run all enabled connectors in parallel
@@ -73,7 +73,7 @@ export async function runIngestionPipeline(
   const seenDedupeKeys: string[] = [];
 
   try {
-    // ââââ Step 1: Run all connectors in parallel ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+    // â”â” Step 1: Run all connectors in parallel â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”
     const connectorResults = await Promise.allSettled(
       connectors.map((c) => c.run())
     );
@@ -98,14 +98,14 @@ export async function runIngestionPipeline(
       totalFetched += result.value.jobs.length;
     }
 
-    // ââââ Step 2: Deduplicate within the batch ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+    // â”â” Step 2: Deduplicate within the batch â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”
     const deduped = deduplicateJobs(allRawJobs);
     totalSkipped += totalFetched - deduped.length;
 
-    // ââââ Step 3: Load user profile for scoring ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+    // â”â” Step 3: Load user profile for scoring â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”
     const profile = await getProfile();
 
-    // ââââ Step 4: Score + upsert each job ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+    // â”â” Step 4: Score + upsert each job â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”
     await Promise.allSettled(
       deduped.map(async (rawJob) => {
         try {
@@ -139,7 +139,7 @@ export async function runIngestionPipeline(
       })
     );
 
-    // ââââ Step 5: Mark jobs not seen in this run ââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+    // â”â” Step 5: Mark jobs not seen in this run â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”
     if (seenDedupeKeys.length > 0) {
       await markMissedJobs(seenDedupeKeys, inactiveAfterMissedRuns);
     }

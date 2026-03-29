@@ -29,16 +29,16 @@ const SOURCE_COLORS: Record<string, string> = {
 };
 
 const WORK_MODEL_ICONS: Record<string, string> = {
-  remote: "ð",
-  hybrid: "ð",
-  onsite: "ð¢",
+  remote: "",
+  hybrid: "",
+  onsite: "",
   unknown: "",
 };
 
 function ScoreBar({ score }: { score: number | null }) {
   if (score === null) {
     return (
-      <span className="text-xs text-gray-400 italic">Unscored ââ set profile to rank</span>
+    <span className="text-xs text-gray-400 italic">Unscored -- set profile to rank</span>
     );
   }
 
@@ -117,14 +117,14 @@ export function JobCard({ job, onAction, onExpand }: JobCardProps) {
             </span>
             {job.workModel !== "unknown" && (
               <span className="text-xs text-gray-500">
-                {WORK_MODEL_ICONS[job.workModel]} {job.workModel}
+                {WORK_MODEL_ICONS[job.workModel]}
               </span>
             )}
             {isApplied && (
-              <span className="text-xs font-medium text-emerald-600">ââ Applied</span>
+              <span className="text-xs font-medium text-emerald-600">Applied</span>
             )}
             {isSaved && (
-              <span className="text-xs font-medium text-brand-600">â... Saved</span>
+              <span className="text-xs font-medium text-brand-600">Saved</span>
             )}
           </div>
 
@@ -139,7 +139,7 @@ export function JobCard({ job, onAction, onExpand }: JobCardProps) {
             <p className="text-sm text-gray-600 mt-0.5">
               {job.company}
               {job.locations.length > 0 && (
-                <span className="text-gray-400"> Â· {job.locations[0]}</span>
+                <span className="text-gray-400"> / {job.locations[0]}</span>
               )}
             </p>
           </button>
@@ -180,7 +180,7 @@ export function JobCard({ job, onAction, onExpand }: JobCardProps) {
                       : "text-gray-400 hover:text-brand-600 hover:bg-brand-50"
                   }`}
                 >
-                  {loading === "save" || loading === "unsave" ? "â¦" : "â..."}
+                  {loading === "save" || loading === "unsave" ? "..." : "Save"}
                 </button>
               )}
 
@@ -193,10 +193,10 @@ export function JobCard({ job, onAction, onExpand }: JobCardProps) {
                   className="text-sm px-2 py-1 rounded-lg text-gray-400 hover:text-red-500 hover:bg-red-50 transition-colors disabled:opacity-50"
                 >
                   {loading === "dismiss" || loading === "undismiss"
-                    ? "â¦"
+                    ? "..."
                     : isDismissed
-                    ? "â©"
-                    : "â"}
+                    ? "Restore"
+                    : "Dismiss"}
                 </button>
               )}
 
@@ -209,7 +209,7 @@ export function JobCard({ job, onAction, onExpand }: JobCardProps) {
                   onClick={() => handleAction("apply")}
                   className="text-sm font-medium text-white bg-brand-600 hover:bg-brand-700 px-3 py-1 rounded-lg transition-colors"
                 >
-                  Apply â--
+                  Apply
                 </a>
               )}
 
@@ -220,7 +220,7 @@ export function JobCard({ job, onAction, onExpand }: JobCardProps) {
                   rel="noopener noreferrer"
                   className="text-sm text-gray-400 hover:text-gray-600 px-2 py-1 rounded-lg transition-colors"
                 >
-                  View â--
+                  View
                 </a>
               )}
             </div>

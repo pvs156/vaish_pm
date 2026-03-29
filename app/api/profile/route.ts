@@ -68,7 +68,7 @@ export async function PUT(req: NextRequest) {
   try {
     const profile = await upsertProfile(updates);
 
-    // Kick off async re-scoring ââ don't await it (too slow for a request)
+    // Kick off async re-scoring â” don't await it (too slow for a request)
     rescoreAllJobs(profile).catch((err) => {
       console.error("[api/profile] Rescore error:", err);
     });
@@ -102,7 +102,7 @@ export async function POST(req: NextRequest) {
   return NextResponse.json(extracted);
 }
 
-// ââââââ Background re-scoring ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// â”â”â” Background re-scoring â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”
 
 async function rescoreAllJobs(
   profile: Awaited<ReturnType<typeof upsertProfile>>

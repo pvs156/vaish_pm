@@ -1,13 +1,13 @@
 /**
- * Ranking engine ââ aggregates individual signals into a deterministic 0ââ100 score.
+ * Ranking engine â” aggregates individual signals into a deterministic 0â“100 score.
  *
  * Weights (sum to 1.0):
- *   titleRelevance  0.30  ââ most important: is this even a PM role?
- *   skillsOverlap   0.20  ââ do skills from profile/JD match?
- *   domainFit       0.15  ââ does the domain match user's background?
- *   recency         0.15  ââ newer is better
- *   locationFit     0.10  ââ geography alignment
- *   workModelFit    0.10  ââ remote/hybrid/onsite preference
+ *   titleRelevance  0.30  â” most important: is this even a PM role?
+ *   skillsOverlap   0.20  â” do skills from profile/JD match?
+ *   domainFit       0.15  â” does the domain match user's background?
+ *   recency         0.15  â” newer is better
+ *   locationFit     0.10  â” geography alignment
+ *   workModelFit    0.10  â” remote/hybrid/onsite preference
  *
  * Mismatch penalty is applied as a final multiplier (not weighted).
  */
@@ -72,11 +72,11 @@ export function scoreJob(job: RawJob, profile: UserProfile): ScoredJob {
     location.score * WEIGHTS.locationFit +
     workModel.score * WEIGHTS.workModelFit;
 
-  // Apply mismatch multiplier and scale to 0ââ100
+  // Apply mismatch multiplier and scale to 0â“100
   const finalScore = Math.round(rawScore * penalty.multiplier * 100);
   const clampedScore = Math.max(0, Math.min(100, finalScore));
 
-  // Build reasons list (3ââ5 most informative items)
+  // Build reasons list (3â“5 most informative items)
   const reasons: string[] = [];
 
   if (title.matched) {
@@ -129,7 +129,7 @@ export function scoreJob(job: RawJob, profile: UserProfile): ScoredJob {
 }
 
 /**
- * Score a full FitResult (with all signal values) ââ used for API/debug responses.
+ * Score a full FitResult (with all signal values) â” used for API/debug responses.
  */
 export function scoreJobFull(job: RawJob, profile: UserProfile): FitResult {
   const { score, reasons, explanation } = scoreJob(job, profile);

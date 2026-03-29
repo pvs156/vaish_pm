@@ -16,7 +16,7 @@ import type { SourceId } from "@/lib/types";
  * }
  */
 export async function POST(req: NextRequest) {
-  // Auth check ââ accept INGEST_SECRET or CRON_SECRET
+  // Auth check â” accept INGEST_SECRET or CRON_SECRET
   const authHeader = req.headers.get("authorization") ?? "";
   const bearerToken = authHeader.startsWith("Bearer ")
     ? authHeader.slice(7)
@@ -46,7 +46,7 @@ export async function POST(req: NextRequest) {
       const body = (await req.json()) as { sources?: SourceId[] };
       bodySources = body.sources;
     } catch {
-      // No body ââ that's fine for cron calls
+      // No body â” that's fine for cron calls
     }
   }
 

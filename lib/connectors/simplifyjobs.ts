@@ -1,5 +1,5 @@
 /**
- * SimplifyJobs connector ââ parses the Summer2026-Internships GitHub repo.
+ * SimplifyJobs connector â” parses the Summer2026-Internships GitHub repo.
  *
  * The README uses an HTML <table> embedded in markdown with columns:
  *   Company | Role | Location | Application / Link | Date Posted
@@ -26,7 +26,7 @@ const REF = "dev";
 
 const SOURCE_BASE_URL = `https://github.com/${OWNER}/${REPO}`;
 
-// Roles to keep ââ must match these PM-adjacent keywords
+// Roles to keep â” must match these PM-adjacent keywords
 const PM_TITLE_KEYWORDS = [
   "product manager",
   "product management",
@@ -106,7 +106,7 @@ export function parseSimplifyJobsReadme(content: string): ParsedRow[] {
     if (!company || !title) return;
     if (!isPmRole(title)) return;
 
-    // Extract apply URL ââ prefer the direct "Apply" link over the Simplify button
+    // Extract apply URL â” prefer the direct "Apply" link over the Simplify button
     const applyUrl =
       extractUrl(rawApplication) ??
       null;
