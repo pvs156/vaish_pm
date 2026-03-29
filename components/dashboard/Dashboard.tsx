@@ -144,23 +144,18 @@ export function Dashboard({ initialJobs, initialTotal, initialFilters }: Dashboa
     setIngestLoading(true);
     setIngestMessage(null);
     try {
-      const secret = window.prompt("Enter ingest secret (leave blank if none):");
-      const res = await fetch("/api/ingest", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ secret: secret ?? "" }),
-      });
+      const res = await fetch("/api/ingest", { method: "POST" });
       const data = await res.json();
       if (!res.ok) {
         setIngestMessage(`Error: ${data.error ?? "Ingest failed"}`);
       } else {
         setIngestMessage(
-          `Done! Upserted ${(data.totalInserted ?? 0) + (data.totalUpdated ?? 0)} jobs in ${data.durationMs ?? 0}ms.`
+          `Refreshed! ${(data.totalInserted ?? 0) + (data.totalUpdated ?? 0)} jobs updated.`
         );
         await fetchJobs(filtersRef.current);
       }
     } catch {
-      setIngestMessage("Network error -- ingest failed.");
+      setIngestMessage("Network error -- refresh failed.");
     } finally {
       setIngestLoading(false);
     }
