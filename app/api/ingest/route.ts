@@ -5,50 +5,20 @@ import type { SourceId } from "@/lib/types";
 /**
  * POST /api/ingest
  *
- * Triggers the full ingestion pipeline.
- * Requires `Authorization: Bearer <INGEST_SECRET>` or body `{ secret }`.
+ * Triggers the full ingestion pipeline. Open for MVP — this is a personal
+ * single-user site and ingest only reads public job board APIs.
  *
- * Also responds to Vercel cron calls (which send CRON_SECRET as Authorization header).
- *
- * Body (optional):
- * {
- *   sources?: SourceId[]  // run specific sources only
- * }
+ * Body (optional): { sources?: SourceId[] }
  */
 export async function POST(req: NextRequest) {
-  // Auth check â” accept INGEST_SECRET or CRON_SECRET
-  const authHeader = req.headers.get("authorization") ?? "";
-  const bearerToken = authHeader.startsWith("Bearer ")
-    ? authHeader.slice(7)
-    : null;
-
-  const ingestSecret = process.env.INGEST_SECRET;
-  const cronSecret = process.env.CRON_SECRET;
-
-  const isAuthorized =
-    (ingestSecret && bearerToken === ingestSecret) ||
-    (cronSecret && bearerToken === cronSecret) ||
-    !ingestSecret; // If no secret is configured, allow all calls (open for MVP)
-
-  // Also allow body-based secret for manual local testing
+  // Personal site MVP: POST is open — ingest only reads public job APIs.
+  // The GET endpoint below stays protected by CRON_SECRET for Vercel cron.
   let bodySources: SourceId[] | undefined;
-  if (!isAuthorized) {
-    try {
-      const body = (await req.json()) as { secret?: string; sources?: SourceId[] };
-      if (!body.secret || body.secret !== ingestSecret) {
-        return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-      }
-      bodySources = body.sources;
-    } catch {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
-  } else {
-    try {
-      const body = (await req.json()) as { sources?: SourceId[] };
-      bodySources = body.sources;
-    } catch {
-      // No body â” that's fine for cron calls
-    }
+  try {
+    const body = (await req.json()) as { sources?: SourceId[] };
+    bodySources = body.sources;
+  } catch {
+    // No body — fine for button-triggered calls
   }
 
   try {
@@ -72,7 +42,7 @@ export async function POST(req: NextRequest) {
   }
 }
 
-// Allow Vercel cron to call via GET as well
+// GET /api/ingest — Vercel cron endpoint, requires CRON_SECRET
 export async function GET(req: NextRequest) {
   const authHeader = req.headers.get("authorization") ?? "";
   const bearerToken = authHeader.startsWith("Bearer ") ? authHeader.slice(7) : null;
