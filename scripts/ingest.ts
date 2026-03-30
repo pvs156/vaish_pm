@@ -12,7 +12,7 @@ config({ path: ".env.local" }); // load .env.local before any db imports
 import { runIngestionPipeline } from "@/lib/ingestion/pipeline";
 
 async function main() {
-  console.log("Job Radar -- starting ingestion...\n");
+  console.log("Vaishnavi Job Board -- starting ingestion...\n");
   const start = Date.now();
 
   const result = await runIngestionPipeline();
