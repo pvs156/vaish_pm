@@ -162,56 +162,64 @@ export function Dashboard({ initialJobs, initialTotal, initialFilters }: Dashboa
   }, [fetchJobs]);
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Filter bar */}
-      <div className="sticky top-[64px] z-20 bg-white border-b border-gray-100 shadow-sm">
+    <div className="min-h-screen" style={{background:"#fafaf9"}}>
+      {/* Sticky filter bar */}
+      <div className="sticky top-14 z-20 bg-white border-b border-stone-200">
         <div className="max-w-5xl mx-auto">
           <FilterBar filters={filters} onChange={handleFilterChange} isLoading={loading} />
         </div>
       </div>
 
-      <div className="max-w-5xl mx-auto px-4 py-6">
-        {/* Summary row */}
-        <div className="flex items-center justify-between mb-4">
-          <p className="text-sm text-gray-500">
-            {loading ? "Loading..." : `${total} role${total !== 1 ? "s" : ""}`}
-            {jobs.length < total && !loading ? ` · showing ${jobs.length}` : ""}
-          </p>
-          <div className="flex items-center gap-2">
+      <div className="max-w-5xl mx-auto px-6 py-6">
+        {/* Summary + refresh row */}
+        <div className="flex items-baseline justify-between mb-5">
+          <div>
+            <h1 className="text-lg font-semibold text-stone-800 tracking-tight">
+              PM Internship Roles
+            </h1>
+            <p className="text-[12px] text-stone-400 mt-0.5">
+              {loading
+                ? "Loading…"
+                : `${total} role${total !== 1 ? "s" : ""}`}
+              {jobs.length < total && !loading ? ` · showing ${jobs.length}` : ""}
+            </p>
+          </div>
+
+          <div className="flex items-center gap-3">
             {ingestMessage && (
-              <span className="text-xs text-gray-500">{ingestMessage}</span>
+              <span className="text-[12px] text-stone-500">{ingestMessage}</span>
             )}
             <button
               onClick={triggerIngest}
               disabled={ingestLoading}
-              className="text-sm font-medium px-3 py-1.5 rounded-lg bg-brand-600 text-white hover:bg-brand-700 disabled:opacity-50 transition-colors"
+              className="text-[12px] font-medium px-3 py-1.5 rounded border border-stone-200 text-stone-600 hover:bg-stone-50 hover:border-stone-300 disabled:opacity-50 transition-colors"
             >
-              {ingestLoading ? "Running..." : "↻ Refresh"}
+              {ingestLoading ? "Refreshing…" : "↻ Refresh jobs"}
             </button>
           </div>
         </div>
 
         {/* Job list */}
         {loading ? (
-          <div className="space-y-3">
-            {Array.from({ length: 5 }).map((_, i) => (
-              <div key={i} className="h-28 bg-white rounded-xl animate-pulse" />
+          <div className="space-y-2">
+            {Array.from({ length: 6 }).map((_, i) => (
+              <div key={i} className="h-24 bg-white rounded-lg border border-stone-100 animate-pulse" />
             ))}
           </div>
         ) : jobs.length === 0 ? (
-          <div className="text-center py-20 text-gray-400 space-y-3">
-            <p className="text-4xl">&#x1F50D;</p>
-            <p className="text-lg font-medium">No roles found</p>
-            <p className="text-sm">
-              Try widening your filters, or{" "}
+          <div className="text-center py-24 space-y-3">
+            <p className="text-3xl opacity-30">&#x25A1;</p>
+            <p className="text-sm font-medium text-stone-600">No roles found</p>
+            <p className="text-[13px] text-stone-400">
+              Try wider filters, or{" "}
               <button onClick={triggerIngest} className="text-brand-600 hover:underline">
-                run an ingest
-              </button>{" "}
-              to pull the latest listings.
+                refresh listings
+              </button>
+              .
             </p>
           </div>
         ) : (
-          <div className="space-y-3">
+          <div className="space-y-2">
             {jobs.map((job) => (
               <JobCard
                 key={job.id}
@@ -225,13 +233,13 @@ export function Dashboard({ initialJobs, initialTotal, initialFilters }: Dashboa
 
         {/* Load more */}
         {hasMore && !loading && (
-          <div className="flex justify-center mt-6">
+          <div className="flex justify-center mt-8">
             <button
               onClick={loadMore}
               disabled={loadingMore}
-              className="text-sm font-medium px-5 py-2 rounded-xl border border-gray-200 bg-white hover:bg-gray-50 disabled:opacity-50 transition-colors"
+              className="text-[13px] font-medium px-6 py-2 rounded border border-stone-200 text-stone-600 bg-white hover:bg-stone-50 disabled:opacity-50 transition-colors"
             >
-              {loadingMore ? "Loading..." : "Load more"}
+              {loadingMore ? "Loading…" : "Load more"}
             </button>
           </div>
         )}

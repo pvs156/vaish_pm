@@ -13,12 +13,16 @@ export default async function SettingsPage() {
   }
 
   return (
-    <div className="max-w-5xl mx-auto px-4 py-10">
-      <h1 className="text-2xl font-bold text-gray-900 mb-1">Settings</h1>
-      <p className="text-sm text-gray-500 mb-8">
-        Your profile helps us rank and filter PM roles to match your preferences.
-      </p>
-      <ProfileForm initial={profile} />
+    <div style={{background:"#fafaf9"}} className="min-h-screen">
+      <div className="max-w-2xl mx-auto px-6 py-10">
+        <div className="mb-8">
+          <h1 className="text-xl font-semibold text-stone-800 tracking-tight">Profile settings</h1>
+          <p className="text-[13px] text-stone-400 mt-1">
+            Your resume and preferences are used to score and rank every job listing.
+          </p>
+        </div>
+        <ProfileForm initial={profile} />
+      </div>
     </div>
   );
 }

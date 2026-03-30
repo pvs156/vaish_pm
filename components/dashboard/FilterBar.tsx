@@ -44,18 +44,18 @@ export function FilterBar({ filters, onChange, isLoading }: FilterBarProps) {
   );
 
   return (
-    <div className="bg-white border border-gray-200 rounded-xl p-4 space-y-3">
-      {/* Row 1: time window + sort */}
+    <div className="px-6 py-3 space-y-2.5">
+      {/* Row 1: time window chips + sort */}
       <div className="flex flex-wrap gap-2 items-center">
-        <div className="flex rounded-lg border border-gray-200 overflow-hidden">
+        <div className="flex gap-1">
           {TIME_WINDOWS.map((tw) => (
             <button
               key={tw.value}
               onClick={() => update({ window: tw.value })}
-              className={`px-3 py-1.5 text-sm font-medium transition-colors ${
+              className={`px-3 py-1 text-[12px] font-medium rounded-full transition-colors ${
                 filters.window === tw.value
-                  ? "bg-brand-600 text-white"
-                  : "text-gray-600 hover:bg-gray-50"
+                  ? "bg-stone-900 text-white"
+                  : "text-stone-500 hover:text-stone-800 hover:bg-stone-100"
               }`}
             >
               {tw.label}
@@ -63,15 +63,15 @@ export function FilterBar({ filters, onChange, isLoading }: FilterBarProps) {
           ))}
         </div>
 
-        <div className="flex rounded-lg border border-gray-200 overflow-hidden ml-auto">
+        <div className="flex gap-1 ml-auto">
           {SORT_OPTIONS.map((s) => (
             <button
               key={s.value}
               onClick={() => update({ sort: s.value })}
-              className={`px-3 py-1.5 text-sm font-medium transition-colors ${
+              className={`px-3 py-1 text-[12px] font-medium rounded-full transition-colors ${
                 filters.sort === s.value
                   ? "bg-brand-600 text-white"
-                  : "text-gray-600 hover:bg-gray-50"
+                  : "text-stone-500 hover:text-stone-800 hover:bg-stone-100"
               }`}
             >
               {s.label}
@@ -80,44 +80,38 @@ export function FilterBar({ filters, onChange, isLoading }: FilterBarProps) {
         </div>
       </div>
 
-      {/* Row 2: source, work model, location, min score */}
+      {/* Row 2: dropdowns + location + min score */}
       <div className="flex flex-wrap gap-2 items-center">
         <select
           value={filters.source}
           onChange={(e) => update({ source: e.target.value as JobFilters["source"] })}
-          className="text-sm border border-gray-200 rounded-lg px-2.5 py-1.5 text-gray-700 bg-white"
+          className="text-[12px] border border-stone-200 rounded-full px-3 py-1 text-stone-600 bg-white hover:border-stone-300 transition-colors"
         >
           {SOURCES.map((s) => (
-            <option key={s.value} value={s.value}>
-              {s.label}
-            </option>
+            <option key={s.value} value={s.value}>{s.label}</option>
           ))}
         </select>
 
         <select
           value={filters.workModel}
           onChange={(e) => update({ workModel: e.target.value as JobFilters["workModel"] })}
-          className="text-sm border border-gray-200 rounded-lg px-2.5 py-1.5 text-gray-700 bg-white"
+          className="text-[12px] border border-stone-200 rounded-full px-3 py-1 text-stone-600 bg-white hover:border-stone-300 transition-colors"
         >
           {WORK_MODELS.map((wm) => (
-            <option key={wm.value} value={wm.value}>
-              {wm.label}
-            </option>
+            <option key={wm.value} value={wm.value}>{wm.label}</option>
           ))}
         </select>
 
         <input
           type="text"
-          placeholder="Filter by location..."
+          placeholder="Location…"
           value={filters.location}
           onChange={(e) => update({ location: e.target.value })}
-          className="text-sm border border-gray-200 rounded-lg px-2.5 py-1.5 text-gray-700 w-44"
+          className="text-[12px] border border-stone-200 rounded-full px-3 py-1 text-stone-600 placeholder:text-stone-400 w-36 focus:outline-none focus:border-brand-400"
         />
 
         <div className="flex items-center gap-2">
-          <label className="text-sm text-gray-600 whitespace-nowrap">
-            Min score:
-          </label>
+          <label className="text-[12px] text-stone-500 whitespace-nowrap">Min fit:</label>
           <input
             type="range"
             min={0}
@@ -125,14 +119,14 @@ export function FilterBar({ filters, onChange, isLoading }: FilterBarProps) {
             step={5}
             value={filters.minScore}
             onChange={(e) => update({ minScore: Number(e.target.value) })}
-            className="w-24 accent-brand-600"
+            className="w-20 accent-brand-600"
           />
-          <span className="text-sm text-gray-700 w-8 text-right">{filters.minScore}</span>
+          <span className="text-[12px] text-stone-700 font-medium w-6 text-right tabular-nums">{filters.minScore}</span>
         </div>
 
         {isLoading && (
-          <div className="ml-auto flex items-center gap-1.5 text-sm text-gray-400">
-            <svg className="animate-spin h-3.5 w-3.5" fill="none" viewBox="0 0 24 24">
+          <div className="ml-auto flex items-center gap-1.5 text-[12px] text-stone-400">
+            <svg className="animate-spin h-3 w-3" fill="none" viewBox="0 0 24 24">
               <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
               <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
             </svg>
@@ -142,7 +136,7 @@ export function FilterBar({ filters, onChange, isLoading }: FilterBarProps) {
       </div>
 
       {/* Row 3: show/hide toggles */}
-      <div className="flex gap-4 text-sm text-gray-600">
+      <div className="flex gap-4 text-[12px] text-stone-500">
         <label className="flex items-center gap-1.5 cursor-pointer">
           <input
             type="checkbox"
