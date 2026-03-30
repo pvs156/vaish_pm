@@ -1,10 +1,11 @@
 /**
- * Ashby connector â” queries public Ashby GraphQL job boards for a curated list of companies.
+ * Ashby connector — queries the Ashby public posting REST API for a curated
+ * list of companies.
  *
- * API: POST https://jobs.ashbyhq.com/api/non-user-graphql
- * with GraphQL query: query JobBoard($slug: String!) { jobBoard(companySlug: $slug) { ... } }
+ * API: GET https://api.ashbyhq.com/posting-api/job-board/{slug}
+ * Returns: { jobs: [...] }
  *
- * We filter to PM-adjacent roles by title keyword matching.
+ * We filter to PM-adjacent intern roles by title keyword matching.
  */
 
 import { AshbyResponseSchema } from "../schemas";
@@ -15,13 +16,19 @@ import { parseDate } from "../utils/dates";
 import { containsAny } from "../utils/text";
 
 const DEFAULT_COMPANIES: Array<{ slug: string; name: string }> = [
-  { slug: "linear", name: "Linear" },
-  { slug: "retool", name: "Retool" },
-  { slug: "loom", name: "Loom" },
-  { slug: "ashby", name: "Ashby" },
-  { slug: "vanta", name: "Vanta" },
-  { slug: "dbt-labs", name: "dbt Labs" },
+  // Product analytics / infra
+  { slug: "posthog", name: "PostHog" },
+  // Climate / sustainability
   { slug: "watershed", name: "Watershed" },
+  // General tech
+  { slug: "linear", name: "Linear" },
+  { slug: "vanta", name: "Vanta" },
+  { slug: "ashby", name: "Ashby" },
+  { slug: "loom", name: "Loom" },
+  { slug: "retool", name: "Retool" },
+  // Fintech
+  { slug: "mercury", name: "Mercury" },
+  { slug: "ramp", name: "Ramp" },
 ];
 
 const PM_TITLE_KEYWORDS = [
@@ -46,36 +53,28 @@ function isPmInternRole(title: string, employmentType?: string | null): boolean 
   return containsAny(lower, PM_TITLE_KEYWORDS) && isIntern;
 }
 
-const ASHBY_GRAPHQL_QUERY = `
-  query JobBoard($slug: String!) {
-    jobBoard(companySlug: $slug) {
-      jobPostings {
-        id
-        title
-        locationName
-        employmentType
-        jobUrl
-        publishedAt
-        isRemote
-        department {
-          name
-        }
-      }
-    }
-  }
-`;
-
 function getCompanyList(): Array<{ slug: string; name: string }> {
   const envSlugs = process.env.ASHBY_COMPANIES;
   if (!envSlugs) return DEFAULT_COMPANIES;
   return envSlugs.split(",").map((s) => ({ slug: s.trim(), name: s.trim() }));
 }
 
-function ashbyWorkModelFromFields(
+function ashbyWorkModel(
+  workplaceType: string | null | undefined,
   isRemote: boolean | null | undefined,
   locationName: string | null | undefined
 ): WorkModel {
   if (isRemote) return "remote";
+  switch (workplaceType?.toLowerCase()) {
+    case "remote":
+      return "remote";
+    case "hybrid":
+      return "hybrid";
+    case "onsite":
+    case "on_site":
+    case "in-office":
+      return "onsite";
+  }
   return inferWorkModel(locationName);
 }
 
@@ -91,21 +90,11 @@ export class AshbyConnector implements SourceConnector {
 
     await Promise.allSettled(
       companies.map(async ({ slug, name }) => {
+        const url = `https://api.ashbyhq.com/posting-api/job-board/${slug}`;
         let json: unknown;
 
         try {
-          const res = await fetch(
-            "https://jobs.ashbyhq.com/api/non-user-graphql",
-            {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({
-                query: ASHBY_GRAPHQL_QUERY,
-                variables: { slug },
-              }),
-              cache: "no-store",
-            }
-          );
+          const res = await fetch(url, { cache: "no-store" });
 
           if (!res.ok) {
             errors.push({
@@ -132,25 +121,24 @@ export class AshbyConnector implements SourceConnector {
           errors.push({
             source: this.sourceId,
             stage: "parse",
-            message: `Ashby ${slug}: schema parse failed â” ${err instanceof Error ? err.message : String(err)}`,
+            message: `Ashby ${slug}: schema parse failed — ${err instanceof Error ? err.message : String(err)}`,
           });
           return;
         }
 
-        const postings = parsed.data.jobBoard.jobPostings;
-
-        for (const posting of postings) {
+        for (const posting of parsed.jobs) {
           try {
             if (!isPmInternRole(posting.title, posting.employmentType)) continue;
 
-            const locations = normalizeLocations(posting.locationName);
-            const workModel = ashbyWorkModelFromFields(posting.isRemote, posting.locationName);
+            const rawLocation = posting.location;
+            const locations = normalizeLocations(rawLocation);
+            const workModel = ashbyWorkModel(posting.workplaceType, posting.isRemote, rawLocation);
             const postedAt = parseDate(posting.publishedAt);
 
-            // Ashby job URLs follow a pattern when not returned directly
             const jobUrl =
               posting.jobUrl ??
               `https://jobs.ashbyhq.com/${slug}/${posting.id}`;
+            const applyUrl = posting.applyUrl ?? jobUrl;
 
             const dedupeKey = generateDedupeKey(name, posting.title, locations);
 
@@ -158,7 +146,7 @@ export class AshbyConnector implements SourceConnector {
               source: this.sourceId,
               sourceJobId: posting.id,
               sourceUrl: jobUrl,
-              applyUrl: jobUrl,
+              applyUrl,
               company: name,
               title: posting.title,
               locations,

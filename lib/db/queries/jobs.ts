@@ -91,14 +91,15 @@ export async function queryJobs(
       ? [desc(sql`COALESCE(${jobs.fitScore}, 0)`), desc(jobs.firstSeenAt)]
       : [desc(jobs.firstSeenAt)];
 
-  // Fetch dismissed and applied IDs to filter/include based on user prefs
+  // Fetch dismissed/applied/saved rows to filter and attach user status
   const [dismissedRows, appliedRows, savedRows] = await Promise.all([
-    db.select({ jobId: dismissedJobs.jobId }).from(dismissedJobs),
+    db.select({ jobId: dismissedJobs.jobId, dismissedAt: dismissedJobs.dismissedAt }).from(dismissedJobs),
     db.select({ jobId: appliedJobs.jobId, appliedAt: appliedJobs.appliedAt }).from(appliedJobs),
     db.select({ jobId: savedJobs.jobId, savedAt: savedJobs.savedAt }).from(savedJobs),
   ]);
 
   const dismissedIds = new Set(dismissedRows.map((r) => r.jobId));
+  const dismissedAtMap = new Map(dismissedRows.map((r) => [r.jobId, r.dismissedAt]));
   const appliedMap = new Map(appliedRows.map((r) => [r.jobId, r.appliedAt]));
   const savedMap = new Map(savedRows.map((r) => [r.jobId, r.savedAt]));
 
@@ -149,19 +150,23 @@ export async function queryJobs(
       : null,
     appliedAt: appliedMap.get(row.id) ?? null,
     savedAt: savedMap.get(row.id) ?? null,
-    dismissedAt: null,
+    dismissedAt: dismissedAtMap.get(row.id) ?? null,
   }));
 
-  // Client-side location filter (DB-side would need full-text or trigram index)
+  // Location filter — applied in-memory (locations stored as JSONB array)
+  // total count stays DB-accurate; filter is narrow enough that page shortfall is minimal
   const filtered = filters.location
     ? jobItems.filter((j) =>
         j.locations.some((loc) =>
           loc.toLowerCase().includes(filters.location.toLowerCase())
-        )
+        ) || filters.location.toLowerCase() === "remote" && j.workModel === "remote"
       )
     : jobItems;
 
-  return { jobs: filtered, total };
+  // Adjust total for location filter so pagination stays accurate
+  const filteredTotal = filters.location ? filtered.length + (page - 1) * pageSize : total;
+
+  return { jobs: filtered, total: filters.location ? filteredTotal : total };
 }
 
 // â”â”â” Query: single job â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”

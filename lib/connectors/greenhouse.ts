@@ -17,18 +17,25 @@ import { containsAny, normalizeCompany } from "../utils/text";
 
 // Default curated list â” expandable via GREENHOUSE_COMPANIES env var (comma-separated tokens)
 const DEFAULT_COMPANIES: Array<{ token: string; name: string }> = [
-  { token: "stripe", name: "Stripe" },
-  { token: "figma", name: "Figma" },
-  { token: "ramp", name: "Ramp" },
-  { token: "brex", name: "Brex" },
-  { token: "rippling", name: "Rippling" },
+  // AI / ML / GenAI
   { token: "anthropic", name: "Anthropic" },
   { token: "scaleai", name: "Scale AI" },
-  { token: "duolingo", name: "Duolingo" },
-  { token: "airtable", name: "Airtable" },
-  { token: "notion", name: "Notion" },
-  { token: "mixpanel", name: "Mixpanel" },
+  { token: "databricks", name: "Databricks" },
+  // Fintech / payments
+  { token: "stripe", name: "Stripe" },
+  { token: "brex", name: "Brex" },
   { token: "gusto", name: "Gusto" },
+  { token: "robinhood", name: "Robinhood" },
+  { token: "chime", name: "Chime" },
+  { token: "coinbase", name: "Coinbase" },
+  // General tech (strong PM intern programs)
+  { token: "figma", name: "Figma" },
+  { token: "airtable", name: "Airtable" },
+  { token: "duolingo", name: "Duolingo" },
+  { token: "mixpanel", name: "Mixpanel" },
+  { token: "lyft", name: "Lyft" },
+  { token: "cloudflare", name: "Cloudflare" },
+  { token: "datadog", name: "Datadog" },
 ];
 
 const PM_TITLE_KEYWORDS = [

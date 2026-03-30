@@ -3,7 +3,7 @@
  *
  * The README uses an HTML <table> embedded in markdown with columns:
  *   Company | Role | Location | Application / Link | Date Posted
- * Sub-rows (additional roles at same company) start with â³ in the Role column.
+ * Sub-rows (additional roles at same company) start with ↳ in the Role column.
  * The Application column contains HTML with anchor tags to Apply/Simplify.
  *
  * Source: https://github.com/SimplifyJobs/Summer2026-Internships (dev branch)
@@ -92,16 +92,16 @@ export function parseSimplifyJobsReadme(content: string): ParsedRow[] {
     const rawApplication = $(cells[3]).html() ?? "";
     const rawDate = $(cells[4])?.text().trim() ?? "";
 
-    // Resolve company for â³ sub-rows
+    // Resolve company for ↳ sub-rows
     let company: string;
-    if (!rawCompany || rawCompany === "â³") {
+    if (!rawCompany || rawCompany === "↳") {
       company = lastCompany;
     } else {
       company = cleanText(rawCompany);
       lastCompany = company;
     }
 
-    const title = cleanText(rawRole.replace(/^â³\s*/, ""));
+    const title = cleanText(rawRole.replace(/^↳\s*/, ""));
 
     if (!company || !title) return;
     if (!isPmRole(title)) return;

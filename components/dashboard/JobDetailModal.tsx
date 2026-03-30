@@ -3,6 +3,7 @@
 import { useCallback } from "react";
 import type { JobListItem } from "@/lib/types";
 import { timeAgo, formatDate } from "@/lib/utils/dates";
+import { ScoreBadge } from "./ScoreBadge";
 
 interface JobDetailModalProps {
   job: JobListItem | null;
@@ -96,23 +97,8 @@ export function JobDetailModal({ job, onClose, onAction }: JobDetailModalProps) 
               {job.fitScore !== null && (
                 <div className="flex items-center gap-3">
                   <span className="text-sm font-medium text-gray-700">Fit score</span>
-                  <div className="flex-1 h-2 bg-gray-200 rounded-full overflow-hidden">
-                    <div
-                      className={`h-full rounded-full ${
-                        job.fitScore >= 80
-                          ? "bg-emerald-500"
-                          : job.fitScore >= 60
-                          ? "bg-brand-500"
-                          : job.fitScore >= 40
-                          ? "bg-amber-400"
-                          : "bg-gray-300"
-                      }`}
-                      style={{ width: `${job.fitScore}%` }}
-                    />
-                  </div>
-                  <span className="text-lg font-bold text-gray-900 tabular-nums w-10 text-right">
-                    {job.fitScore}
-                  </span>
+                  <ScoreBadge score={job.fitScore} size="lg" />
+                  <span className="text-sm text-gray-500">/ 100</span>
                 </div>
               )}
 

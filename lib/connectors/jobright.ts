@@ -3,7 +3,7 @@
  *
  * The README is a markdown pipe table with columns:
  *   Company | Role | Location | Work Type | Date
- * Sub-rows (additional postings at same company) start with â³ in the Role column.
+ * Sub-rows (additional postings at same company) start with ↳ in the Role column.
  *
  * Source: https://github.com/jobright-ai/2026-Product-Management-Internship
  */
@@ -34,7 +34,7 @@ interface ParsedRow {
 
 /**
  * Parse the markdown pipe table rows from the README content.
- * Handles â³ sub-rows by carrying over the last seen company name.
+ * Handles ↳ sub-rows by carrying over the last seen company name.
  */
 export function parseJobrightMarkdown(content: string): ParsedRow[] {
   const lines = content.split("\n");
@@ -73,9 +73,9 @@ export function parseJobrightMarkdown(content: string): ParsedRow[] {
 
     const [rawCompany = "", rawRole = "", rawLocation = "", rawWorkType = "", rawDate = ""] = cells;
 
-    // Resolve company: use â³ sub-row or update last seen
+    // Resolve company: use ↳ sub-row or update last seen
     let company: string;
-    if (rawCompany.startsWith("â³") || rawCompany === "") {
+    if (rawCompany.startsWith("↳") || rawCompany === "") {
       company = lastCompany;
     } else {
       company = cleanText(rawCompany.replace(/\[([^\]]+)\]\([^)]+\)/g, "$1").replace(/\*\*/g, ""));

@@ -88,21 +88,20 @@ export type LeverPosting = z.infer<typeof LeverPostingSchema>;
 export const AshbyJobPostingSchema = z.object({
   id: z.string(),
   title: z.string(),
-  locationName: z.string().optional().nullable(),
+  location: z.string().optional().nullable(),
+  secondaryLocations: z.array(z.unknown()).optional(),
   employmentType: z.string().optional().nullable(),
   jobUrl: z.string().optional().nullable(),
+  applyUrl: z.string().optional().nullable(),
   publishedAt: z.string().optional().nullable(),
-  descriptionPlain: z.string().optional().nullable(),
+  descriptionHtml: z.string().optional().nullable(),
   isRemote: z.boolean().optional().nullable(),
-  department: z.object({ name: z.string() }).optional().nullable(),
+  workplaceType: z.string().optional().nullable(),
+  department: z.string().optional().nullable(),
 });
 
 export const AshbyResponseSchema = z.object({
-  data: z.object({
-    jobBoard: z.object({
-      jobPostings: z.array(AshbyJobPostingSchema),
-    }),
-  }),
+  jobs: z.array(AshbyJobPostingSchema),
 });
 
 export type AshbyJobPosting = z.infer<typeof AshbyJobPostingSchema>;

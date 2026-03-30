@@ -105,8 +105,9 @@ const US_LOCATIONS = [
 export function extractSkills(resumeText: string): string[] {
   const found = new Set<string>();
   for (const skill of KNOWN_SKILLS) {
-    // Word-boundary match, case-insensitive
-    const pattern = new RegExp(`\\b${skill.replace(/[-+]/g, "\\$&")}\\b`, "i");
+    // Escape all regex special chars (including / in "A/B Testing"), then word-boundary match
+    const escaped = skill.replace(/[.*+?^${}()|[\]\\/]/g, "\\$&");
+    const pattern = new RegExp(`\\b${escaped}\\b`, "i");
     if (pattern.test(resumeText)) {
       found.add(skill);
     }

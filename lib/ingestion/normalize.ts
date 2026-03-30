@@ -12,7 +12,7 @@ export function inferWorkModel(
   const combined = texts.filter(Boolean).join(" ").toLowerCase();
 
   if (
-    /\bremote\b/.test(combined) &&
+    /\bremote\b|\bwfh\b|\bwork.from.home\b/.test(combined) &&
     !/hybrid|on.?site|in.?office/.test(combined)
   ) {
     return "remote";

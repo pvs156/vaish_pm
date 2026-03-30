@@ -3,6 +3,7 @@
 import { useState } from "react";
 import type { JobListItem } from "@/lib/types";
 import { timeAgo } from "@/lib/utils/dates";
+import { ScoreBadge } from "./ScoreBadge";
 
 interface JobCardProps {
   job: JobListItem;
@@ -35,46 +36,6 @@ const WORK_MODEL_ICONS: Record<string, string> = {
   unknown: "",
 };
 
-function ScoreBar({ score }: { score: number | null }) {
-  if (score === null) {
-    return (
-    <span className="text-xs text-gray-400 italic">Unscored -- set profile to rank</span>
-    );
-  }
-
-  const color =
-    score >= 80
-      ? "bg-emerald-500"
-      : score >= 60
-      ? "bg-brand-500"
-      : score >= 40
-      ? "bg-amber-400"
-      : "bg-gray-300";
-
-  return (
-    <div className="flex items-center gap-2">
-      <div className="flex-1 h-1.5 bg-gray-100 rounded-full overflow-hidden">
-        <div
-          className={`h-full rounded-full ${color} transition-all`}
-          style={{ width: `${score}%` }}
-        />
-      </div>
-      <span
-        className={`text-xs font-semibold tabular-nums ${
-          score >= 80
-            ? "text-emerald-600"
-            : score >= 60
-            ? "text-brand-600"
-            : score >= 40
-            ? "text-amber-600"
-            : "text-gray-400"
-        }`}
-      >
-        {score}
-      </span>
-    </div>
-  );
-}
 
 export function JobCard({ job, onAction, onExpand }: JobCardProps) {
   const [loading, setLoading] = useState<string | null>(null);
@@ -143,11 +104,6 @@ export function JobCard({ job, onAction, onExpand }: JobCardProps) {
               )}
             </p>
           </button>
-
-          {/* Score */}
-          <div className="mt-2">
-            <ScoreBar score={job.fitScore} />
-          </div>
 
           {/* Match reasons */}
           {job.fitReasons.length > 0 && (
@@ -225,6 +181,11 @@ export function JobCard({ job, onAction, onExpand }: JobCardProps) {
               )}
             </div>
           </div>
+        </div>
+
+        {/* Right: score badge */}
+        <div className="shrink-0 pt-0.5">
+          <ScoreBadge score={job.fitScore} size="sm" />
         </div>
       </div>
     </div>

@@ -15,13 +15,10 @@ import { fromUnixMs } from "../utils/dates";
 import { containsAny } from "../utils/text";
 
 const DEFAULT_COMPANIES: Array<{ slug: string; name: string }> = [
+  // AI / ML (confirmed working)
   { slug: "palantir", name: "Palantir" },
-  { slug: "benchling", name: "Benchling" },
-  { slug: "thoughtworks", name: "Thoughtworks" },
-  { slug: "scale-ai", name: "Scale AI" },
-  { slug: "coda", name: "Coda" },
-  { slug: "linear", name: "Linear" },
-  { slug: "retool", name: "Retool" },
+  // Fintech (confirmed working)
+  { slug: "plaid", name: "Plaid" },
 ];
 
 const PM_TITLE_KEYWORDS = [

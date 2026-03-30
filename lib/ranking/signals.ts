@@ -4,7 +4,7 @@
  * Each scorer returns a value in [0, 1].
  * Scores are combined with weights in engine.ts.
  *
- * All scorers are pure functions â” no side effects, no I/O.
+ * All scorers are pure functions —  no side effects, no I/O.
  */
 
 import type { UserProfile } from "../types";
@@ -153,7 +153,7 @@ export function locationFitScore(
   profile: UserProfile
 ): { score: number; reason: string | null } {
   if (job.workModel === "remote") {
-    return { score: 0.9, reason: "Remote â” open to all locations" };
+    return { score: 0.9, reason: "Remote — open to all locations" };
   }
 
   const jobLocations = job.locations.map((l) => l.toLowerCase());
@@ -225,7 +225,7 @@ export function recencyScore(job: RawJob): { score: number; label: string } {
 
 /**
  * Apply penalties for clear mismatches: wrong seniority, excluded domains, etc.
- * Returns a multiplier in [0, 1] â” 1.0 = no penalty.
+ * Returns a multiplier in [0, 1] —  1.0 = no penalty.
  */
 export function mismatchPenalty(
   job: RawJob,
