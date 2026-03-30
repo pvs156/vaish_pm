@@ -88,8 +88,8 @@ export async function queryJobs(
 
   const orderBy =
     filters.sort === "best_fit"
-      ? [desc(sql`COALESCE(${jobs.fitScore}, 0)`), desc(jobs.firstSeenAt)]
-      : [desc(jobs.firstSeenAt)];
+      ? [desc(sql`COALESCE(${jobs.fitScore}, 0)`), desc(sql`COALESCE(${jobs.postedAt}, ${jobs.firstSeenAt})`)]
+      : [desc(sql`COALESCE(${jobs.postedAt}, ${jobs.firstSeenAt})`)];
 
   // Fetch dismissed/applied/saved rows to filter and attach user status
   const [dismissedRows, appliedRows, savedRows] = await Promise.all([
